@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anime Figures Store</title>
+    <title>Mochi Studio — Handmade Anime Figures</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
@@ -189,6 +189,7 @@
         .nav-link {
             position: relative;
             transition: color 0.3s;
+            cursor: pointer;
         }
         
         .nav-link::after {
@@ -331,6 +332,16 @@
         .modal-input:invalid:focus {
             box-shadow: 0 0 0 4px rgba(186, 26, 26, 0.1);
         }
+        
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Studio info card */
+        .studio-info {
+            background: linear-gradient(135deg, rgba(255, 218, 212, 0.15), rgba(255, 220, 180, 0.08));
+        }
     </style>
 </head>
 <body class="text-on-surface min-h-screen relative">
@@ -363,32 +374,19 @@
         <div class="max-w-7xl mx-auto px-container-margin-mobile md:px-container-margin-desktop">
             <div class="flex items-center justify-between h-20 md:h-24">
                 <!-- Logo -->
-                <a href="{% url 'home' %}" class="flex items-center gap-3 group">
+                <a href="#" class="flex items-center gap-3 group">
                     <span class="text-3xl">🎨</span>
                     <div>
-                        <span class="font-headline-sm text-headline-sm text-on-surface">Anime<span class="text-tertiary">Figures</span></span>
+                        <span class="font-headline-sm text-headline-sm text-on-surface">Mochi<span class="text-tertiary">Studio</span></span>
                         <span class="hidden md:block text-label-caps text-on-surface-variant text-[10px] tracking-widest uppercase">Handmade Atelier</span>
                     </div>
                 </a>
 
                 <!-- Navigation -->
-                <nav class="hidden lg:flex items-center gap-8">
+                <nav class="flex items-center gap-6 md:gap-8">
                     <a href="#" class="nav-link text-body-md text-on-surface-variant hover:text-tertiary transition-colors">Главная</a>
-                    <a href="#" class="nav-link text-body-md text-on-surface-variant hover:text-tertiary transition-colors">Коллекция</a>
-                    <a href="#" class="nav-link text-body-md text-on-surface-variant hover:text-tertiary transition-colors">О нас</a>
-                    <a href="#" class="nav-link text-body-md text-on-surface-variant hover:text-tertiary transition-colors">Контакты</a>
+                    <a href="#footer" class="nav-link text-body-md text-on-surface-variant hover:text-tertiary transition-colors">Контакты</a>
                 </nav>
-
-                <!-- Header Actions -->
-                <div class="flex items-center gap-3">
-                    <span class="hidden sm:inline text-body-sm text-on-surface-variant font-medium bg-surface-container-low px-4 py-2 rounded-full">
-                        <span class="material-symbols-outlined text-[18px] align-middle mr-1">account_circle</span>
-                        Войти
-                    </span>
-                    <button class="lg:hidden p-2 rounded-lg hover:bg-surface-container transition-colors">
-                        <span class="material-symbols-outlined">menu</span>
-                    </button>
-                </div>
             </div>
         </div>
     </header>
@@ -404,6 +402,52 @@
                 <p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto">
                     Уникальные работы от лучших мастеров. Каждая фигурка — произведение искусства.
                 </p>
+            </div>
+
+            <!-- Studio Info Section -->
+            <div class="studio-info glass-card rounded-2xl p-8 border border-tertiary/20">
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🏮</span>
+                            <h2 class="font-headline-md text-headline-md text-on-surface">О мастерской Mochi Studio</h2>
+                        </div>
+                        <p class="text-body-md text-on-surface-variant leading-relaxed mb-4">
+                            <strong>Mochi Studio</strong> — это небольшая семейная мастерская в Токио, где создаются уникальные handmade фигурки из смолы, полимерной глины и других материалов.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                            <div class="bg-white/50 rounded-xl p-4 text-center">
+                                <span class="text-2xl block mb-1">🎯</span>
+                                <span class="text-body-sm font-bold text-on-surface">5+ лет</span>
+                                <span class="text-body-sm text-on-surface-variant block">опыта</span>
+                            </div>
+                            <div class="bg-white/50 rounded-xl p-4 text-center">
+                                <span class="text-2xl block mb-1">👩‍🎨</span>
+                                <span class="text-body-sm font-bold text-on-surface">12 мастеров</span>
+                                <span class="text-body-sm text-on-surface-variant block">в команде</span>
+                            </div>
+                            <div class="bg-white/50 rounded-xl p-4 text-center">
+                                <span class="text-2xl block mb-1">🌟</span>
+                                <span class="text-body-sm font-bold text-on-surface">100% ручная</span>
+                                <span class="text-body-sm text-on-surface-variant block">работа</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 bg-tertiary/10 rounded-2xl p-6 max-w-xs w-full">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-tertiary">star</span>
+                            <div>
+                                <p class="text-body-sm font-bold text-on-surface">Почему выбирают нас?</p>
+                                <ul class="text-body-sm text-on-surface-variant space-y-1 mt-2">
+                                    <li>• Уникальные дизайны</li>
+                                    <li>• Высокое качество материалов</li>
+                                    <li>• Прямая поддержка художников</li>
+                                    <li>• Эксклюзивные серии</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
@@ -441,11 +485,11 @@
                                 Цена (¥)
                             </h3>
                             <div class="px-2">
-                                <input type="range" name="max_price" min="0" max="100000" value="{{ max_price|default:85000 }}" class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-tertiary" oninput="this.nextElementSibling.value = '¥' + this.value">
-                                <output class="block text-right text-data-mono text-on-surface-variant mt-1 font-bold">¥{{ max_price|default:85000 }}</output>
+                                <input type="range" name="max_price" min="0" max="500000" value="{{ max_price|default:450000 }}" class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-tertiary" oninput="this.nextElementSibling.value = '¥' + this.value">
+                                <output class="block text-right text-data-mono text-on-surface-variant mt-1 font-bold">¥{{ max_price|default:450000 }}</output>
                                 <div class="flex justify-between mt-3 text-data-mono text-on-surface-variant">
                                     <span>¥0</span>
-                                    <span>¥100,000</span>
+                                    <span>¥500,000</span>
                                 </div>
                             </div>
                         </div>
@@ -497,7 +541,10 @@
                                 <h3 class="font-headline-sm text-[18px] text-on-surface line-clamp-1">{{ product.name }}</h3>
                                 <p class="text-body-sm text-on-surface-variant line-clamp-2">{{ product.description|truncatewords:12 }}</p>
                                 <div class="flex items-center justify-between pt-2">
-                                    <span class="font-data-mono text-headline-sm text-tertiary font-bold">¥{{ product.price }}</span>
+                                    <div>
+                                        <span class="font-data-mono text-headline-sm text-tertiary font-bold">¥{{ product.price }}</span>
+                                        <span class="text-body-sm text-on-surface-variant ml-2">(~{{ product.price|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0" }} ₽)</span>
+                                    </div>
                                     <form method="post" action="{% url 'add_to_cart' product.id %}">
                                         {% csrf_token %}
                                         <button type="submit" class="bg-tertiary/10 text-tertiary font-bold px-5 py-2 rounded-lg hover:bg-tertiary hover:text-on-primary transition-all text-body-sm">
@@ -583,6 +630,7 @@
                         <div class="space-y-2 text-body-sm text-on-surface-variant">
                             <div class="flex gap-4"><span>Метод оплаты:</span><span class="text-on-surface font-bold">Ручная работа / Прямой счёт (JPY)</span></div>
                             <div class="flex gap-4"><span>Доставка:</span><span class="text-on-surface font-bold">Japan Post EMS • ¥3,800</span></div>
+                            <div class="flex gap-4"><span>Курс JPY/RUB:</span><span class="text-on-surface font-bold">≈ 0.62 ₽</span></div>
                         </div>
                         <div class="w-full md:w-80 space-y-4">
                             <div class="flex justify-between items-center text-body-lg">
@@ -593,9 +641,16 @@
                                 <span class="text-on-surface-variant">Налог (10%):</span>
                                 <span class="font-data-mono">¥{{ tax|floatformat:"0" }}</span>
                             </div>
-                            <div class="pt-4 border-t border-outline-variant flex justify-between items-center">
+                            <div class="flex justify-between items-center text-body-sm text-on-surface-variant border-b border-outline-variant/20 pb-2">
+                                <span>В рублях (прим.):</span>
+                                <span class="font-data-mono">~{{ grand_total|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0" }} ₽</span>
+                            </div>
+                            <div class="pt-2 border-t border-outline-variant flex justify-between items-center">
                                 <span class="font-headline-sm text-headline-sm">ИТОГО:</span>
-                                <span class="font-display-lg text-[32px] text-tertiary">¥{{ grand_total|floatformat:"0" }}</span>
+                                <div class="text-right">
+                                    <span class="font-display-lg text-[32px] text-tertiary">¥{{ grand_total|floatformat:"0" }}</span>
+                                    <span class="block text-body-sm text-on-surface-variant">~{{ grand_total|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0" }} ₽</span>
+                                </div>
                             </div>
                             <button onclick="openCheckoutModal()" 
                                     class="w-full bg-tertiary text-on-tertiary py-4 rounded-xl font-bold text-body-lg shadow-lg hover:shadow-tertiary/30 hover:translate-y-[-2px] transition-all uppercase tracking-wider"
@@ -610,57 +665,79 @@
     </div>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="glass-card mt-8 border-t border-outline-variant/30">
+    <footer id="footer" class="glass-card mt-8 border-t border-outline-variant/30">
         <div class="max-w-7xl mx-auto px-container-margin-mobile md:px-container-margin-desktop py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Brand -->
                 <div class="md:col-span-1">
                     <div class="flex items-center gap-3 mb-4">
                         <span class="text-3xl">🎨</span>
-                        <span class="font-headline-sm text-headline-sm text-on-surface">Anime<span class="text-tertiary">Figures</span></span>
+                        <span class="font-headline-sm text-headline-sm text-on-surface">Mochi<span class="text-tertiary">Studio</span></span>
                     </div>
                     <p class="text-body-sm text-on-surface-variant leading-relaxed">
                         Уникальные handmade фигурки от лучших мастеров. Каждая работа — эксклюзив.
                     </p>
-                </div>
-
-                <!-- Navigation -->
-                <div>
-                    <h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-4">Навигация</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Главная</a></li>
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Коллекция</a></li>
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">О нас</a></li>
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Контакты</a></li>
-                    </ul>
-                </div>
-
-                <!-- Info -->
-                <div>
-                    <h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-4">Информация</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Доставка</a></li>
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Оплата</a></li>
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Возврат</a></li>
-                        <li><a href="#" class="text-body-sm text-on-surface-variant hover:text-tertiary transition-colors">Privacy Policy</a></li>
-                    </ul>
+                    <div class="mt-4 flex gap-3">
+                        <span class="text-2xl">📷</span>
+                        <span class="text-2xl">🐦</span>
+                        <span class="text-2xl">📘</span>
+                        <span class="text-2xl">🎬</span>
+                    </div>
                 </div>
 
                 <!-- Contacts -->
                 <div>
-                    <h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-4">Контакты</h4>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-3 text-body-sm text-on-surface-variant">
-                            <span class="material-symbols-outlined text-[18px]">email</span>
-                            info@animefigures.ru
+                    <h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">contact_support</span>
+                        Контакты
+                    </h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 text-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-[18px] mt-0.5">email</span>
+                            <div>
+                                <span class="block font-medium text-on-surface">Email</span>
+                                info@mochistudio.jp
+                            </div>
                         </li>
-                        <li class="flex items-center gap-3 text-body-sm text-on-surface-variant">
-                            <span class="material-symbols-outlined text-[18px]">phone</span>
-                            +7 (999) 000-00-00
+                        <li class="flex items-start gap-3 text-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-[18px] mt-0.5">phone</span>
+                            <div>
+                                <span class="block font-medium text-on-surface">Телефон</span>
+                                +81 3-1234-5678
+                            </div>
                         </li>
-                        <li class="flex items-center gap-3 text-body-sm text-on-surface-variant">
-                            <span class="material-symbols-outlined text-[18px]">location_on</span>
-                            Tokyo, Japan
+                        <li class="flex items-start gap-3 text-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-[18px] mt-0.5">location_on</span>
+                            <div>
+                                <span class="block font-medium text-on-surface">Адрес</span>
+                                Токио, Япония<br>
+                                Сибуя, 2-15-12
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Working Hours -->
+                <div>
+                    <h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">schedule</span>
+                        Часы работы
+                    </h4>
+                    <ul class="space-y-3 text-body-sm text-on-surface-variant">
+                        <li class="flex justify-between">
+                            <span>Пн — Пт</span>
+                            <span class="text-on-surface font-medium">10:00 — 20:00</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Суббота</span>
+                            <span class="text-on-surface font-medium">11:00 — 18:00</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Воскресенье</span>
+                            <span class="text-on-surface font-medium">Выходной</span>
+                        </li>
+                        <li class="pt-3 border-t border-outline-variant/20">
+                            <span class="text-xs text-on-surface-variant/60">* Время токийское (UTC+9)</span>
                         </li>
                     </ul>
                 </div>
@@ -668,12 +745,11 @@
 
             <div class="pt-8 mt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
                 <span class="text-label-caps text-label-caps text-on-surface-variant">
-                    © 2026 AnimeFigures. Все права защищены.
+                    © 2026 MochiStudio. Все права защищены.
                 </span>
                 <div class="flex gap-6">
-                    <a href="#" class="text-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Политика</a>
-                    <a href="#" class="text-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Условия</a>
-                    <a href="#" class="text-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Поддержка</a>
+                    <a href="#" class="text-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Политика конфиденциальности</a>
+                    <a href="#" class="text-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Условия использования</a>
                 </div>
             </div>
         </div>
@@ -696,7 +772,7 @@
             </div>
             
             <p class="text-body-md text-on-surface-variant mb-4">
-                Вы оформляете заказ на <strong>ручные фигурки</strong>.<br>
+                Вы оформляете заказ на <strong>ручные фигурки</strong> из мастерской Mochi Studio.<br>
                 С вами свяжется мастер для уточнения деталей.
             </p>
 
@@ -715,7 +791,10 @@
             <div class="bg-surface-container-low rounded-xl p-4 mb-6">
                 <div class="flex justify-between text-body-sm">
                     <span class="text-on-surface-variant">Итоговая сумма:</span>
-                    <span class="font-bold text-tertiary text-lg">¥{{ grand_total|floatformat:"0" }}</span>
+                    <div class="text-right">
+                        <span class="font-bold text-tertiary text-lg">¥{{ grand_total|floatformat:"0" }}</span>
+                        <span class="block text-body-sm text-on-surface-variant">~{{ grand_total|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0" }} ₽</span>
+                    </div>
                 </div>
             </div>
 
@@ -739,10 +818,10 @@
                 const userUrl = prompt('Вставьте ссылку на картинку (URL):', floatImg.src);
                 if (userUrl && userUrl.trim() !== '') {
                     floatImg.src = userUrl.trim();
-                    localStorage.setItem('animeFloatImage', userUrl.trim());
+                    localStorage.setItem('mochiFloatImage', userUrl.trim());
                 }
             });
-            const saved = localStorage.getItem('animeFloatImage');
+            const saved = localStorage.getItem('mochiFloatImage');
             if (saved) floatImg.src = saved;
         }
 
@@ -774,6 +853,7 @@
             const orderData = {
                 phone: phone,
                 total: '{{ grand_total|floatformat:"0" }}',
+                total_rub: '~{{ grand_total|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0"|add:"0"|floatformat:"0" }} ₽',
                 items: [
                     {% for item in cart_items %}
                     { name: '{{ item.name }}', quantity: {{ item.quantity }}, price: {{ item.price }} },
@@ -782,7 +862,7 @@
             };
             
             console.log('Order submitted:', orderData);
-            alert('✅ Заказ оформлен! Мастер свяжется с вами в ближайшее время.');
+            alert('✅ Заказ оформлен! Мастер Mochi Studio свяжется с вами в ближайшее время.');
             closeCheckoutModal();
             
             // Отправляем форму на сервер
