@@ -1,0 +1,832 @@
+<!doctype html>
+<html
+	class="scroll-smooth"
+	lang="ru"
+>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			content="width=device-width, initial-scale=1.0"
+			name="viewport"
+		/>
+		<title>ZenAccounting — Профессиональный учет</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							'surface-container-highest': '#e5e2e1',
+							'on-primary-fixed': '#221b00',
+							background: '#ffffff',
+							'primary-fixed-dim': '#e6c500',
+							'surface-tint': '#6e5e00',
+							'on-error': '#ffffff',
+							'surface-bright': '#fcf9f8',
+							secondary: '#904d00',
+							'inverse-surface': '#313030',
+							'on-secondary-fixed': '#2f1500',
+							error: '#ba1a1a',
+							'on-tertiary': '#ffffff',
+							'on-primary': '#ffffff',
+							'inverse-on-surface': '#f3f0ef',
+							'on-tertiary-fixed-variant': '#920703',
+							'primary-container': '#feda00',
+							'tertiary-fixed-dim': '#ffb4a8',
+							tertiary: '#b52619',
+							'on-secondary-container': '#603100',
+							outline: '#7e775f',
+							'on-primary-fixed-variant': '#534600',
+							'primary-fixed': '#ffe25c',
+							'on-secondary': '#ffffff',
+							'on-tertiary-container': '#b7281b',
+							'error-container': '#ffdad6',
+							'on-surface': '#1c1b1b',
+							'on-secondary-fixed-variant': '#6e3900',
+							'secondary-fixed': '#ffdcc3',
+							'outline-variant': '#cfc6ab',
+							'inverse-primary': '#e6c500',
+							'secondary-fixed-dim': '#ffb77d',
+							'on-tertiary-fixed': '#410000',
+							'surface-variant': '#e5e2e1',
+							'tertiary-fixed': '#ffdad4',
+							'surface-container-high': '#eae7e7',
+							'surface-container': '#f0eded',
+							'on-error-container': '#93000a',
+							'secondary-container': '#fd8b00',
+							'surface-dim': '#dcd9d9',
+							'surface-container-lowest': '#ffffff',
+							'on-primary-container': '#705f00',
+							'tertiary-container': '#ffd1ca',
+							surface: '#fcf9f8',
+							'on-background': '#1c1b1b',
+							'on-surface-variant': '#4c4732',
+							primary: '#6e5e00'
+						},
+						borderRadius: {
+							DEFAULT: '0.25rem',
+							lg: '0.5rem',
+							xl: '0.75rem',
+							full: '9999px'
+						},
+						spacing: {
+							'section-gap': '64px',
+							'card-padding': '24px',
+							'container-margin-mobile': '16px',
+							'container-margin-desktop': '40px',
+							gutter: '24px',
+							unit: '4px'
+						},
+						fontFamily: {
+							'display-lg': ['Manrope'],
+							'label-caps': ['Manrope'],
+							'body-sm': ['Manrope'],
+							'body-lg': ['Manrope'],
+							'headline-md': ['Manrope'],
+							'headline-sm': ['Manrope'],
+							'body-md': ['Manrope'],
+							'data-mono': ['JetBrains Mono']
+						},
+						fontSize: {
+							'display-lg': [
+								'48px',
+								{
+									lineHeight: '1.1',
+									letterSpacing: '-0.02em',
+									fontWeight: '800'
+								}
+							],
+							'label-caps': [
+								'12px',
+								{ lineHeight: '1', letterSpacing: '0.05em', fontWeight: '700' }
+							],
+							'body-sm': ['14px', { lineHeight: '1.5', fontWeight: '400' }],
+							'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+							'headline-md': [
+								'32px',
+								{ lineHeight: '1.25', fontWeight: '700' }
+							],
+							'headline-sm': ['24px', { lineHeight: '1.3', fontWeight: '700' }],
+							'body-md': ['16px', { lineHeight: '1.6', fontWeight: '400' }],
+							'data-mono': [
+								'13px',
+								{
+									lineHeight: '1.4',
+									letterSpacing: '0.02em',
+									fontWeight: '500'
+								}
+							]
+						}
+					}
+				}
+			}
+		</script>
+		<style>
+			.glass-card {
+				background: rgba(255, 255, 255, 0.7);
+				backdrop-filter: blur(20px);
+				border: 1px solid #cfc6ab;
+			}
+			.material-symbols-outlined {
+				font-variation-settings:
+					'FILL' 0,
+					'wght' 400,
+					'GRAD' 0,
+					'opsz' 24;
+			}
+			.organic-bg {
+				background:
+					radial-gradient(circle at top right, #ffe25c 0%, transparent 40%),
+					radial-gradient(circle at bottom left, #ffdad4 0%, transparent 40%);
+			}
+			.text-glow {
+				text-shadow: 0 0 20px rgba(110, 94, 0, 0.1);
+			}
+		</style>
+	</head>
+	<body
+		class="bg-background text-on-surface font-body-md overflow-x-hidden selection:bg-primary/20"
+	>
+		<header
+			class="bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 docked full-width top-0 sticky z-50 flex justify-between items-center w-full px-10 h-16"
+		>
+			<div class="flex items-center gap-2">
+				<span
+					class="material-symbols-outlined text-primary text-3xl"
+					data-icon="account_balance"
+				>
+					account_balance
+				</span>
+				<h1 class="font-headline-sm text-headline-sm font-bold text-primary">
+					ZenAccounting
+				</h1>
+			</div>
+			<nav class="hidden md:flex items-center gap-8">
+				<a
+					class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-caps text-label-caps tracking-wider"
+					href="#"
+				>
+					ГЛАВНАЯ
+				</a>
+				<a
+					class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-caps text-label-caps tracking-wider"
+					href="#services"
+				>
+					УСЛУГИ
+				</a>
+				<a
+					class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-caps text-label-caps tracking-wider"
+					href="#benefits"
+				>
+					ПРЕИМУЩЕСТВА
+				</a>
+				<a
+					class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-caps text-label-caps tracking-wider"
+					href="#pricing"
+				>
+					ТАРИФЫ
+				</a>
+			</nav>
+			<div class="flex items-center gap-4">
+				<div />
+			</div>
+		</header>
+		<main class="organic-bg">
+			<section
+				class="relative pt-24 pb-32 px-10 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16"
+			>
+				<div class="flex-1 space-y-8 z-10">
+					<div
+						class="inline-flex items-center gap-2 px-4 py-2 bg-primary-container/20 text-primary rounded-full font-label-caps text-[10px] tracking-[0.1em] uppercase"
+					>
+						<span
+							class="w-2 h-2 rounded-full bg-secondary animate-pulse"
+						></span>
+						Будущее финансового учета
+					</div>
+					<h2 class="font-display-lg text-display-lg text-glow text-on-surface">
+						Профессиональный учет для вашего бизнеса
+					</h2>
+					<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+						Современная экосистема для управления финансами. Эстетичный
+						интерфейс, умная аналитика и полная безопасность ваших данных в
+						одном облачном решении.
+					</p>
+					<div class="flex flex-wrap gap-4">
+						<button
+							class="px-8 py-4 bg-tertiary text-on-tertiary rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-tertiary/20"
+						>
+							Начать работу
+						</button>
+						<button
+							class="px-8 py-4 bg-surface-container text-primary border border-primary/20 rounded-xl font-bold hover:bg-surface-variant transition-all"
+						>
+							Узнать больше
+						</button>
+					</div>
+				</div>
+				<div class="flex-1 relative">
+					<div
+						class="absolute -top-12 -left-12 w-64 h-64 bg-primary-fixed-dim/30 rounded-full blur-3xl -z-10"
+					></div>
+					<div
+						class="glass-card rounded-[40px] p-2 relative overflow-hidden aspect-[4/3] shadow-2xl"
+					>
+						<img
+							class="w-full h-full object-cover rounded-[36px]"
+							data-alt="A clean, high-angle shot of a sleek modern workspace featuring a metallic laptop displaying colorful financial charts and graphs."
+							src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4bY2vv9RBkWCS5-wujxjfNxWqidmV7F04GPj61cHp_A9qeDpmMhsnzdWdtAwVgZuLtIOSios4cBoHitn78ujWKyaswh_PT-6NxJknm6b53RMm9FSfaEfHxNLOAuvodG7LR5dIYZfIchBQjkbNjvlHlhkFZip7fy6S4gEApaip2OZZCu8gQ3DotgMi-pmKAvT-5WgXffws466ZLDBi5sQdI0x-mONEAsHltIeZpDEDbzUNDZVEE5RcoAgtO-W2FKOyObqJ3lcwzz8"
+						/>
+						<div
+							class="absolute bottom-8 right-8 bg-white/90 backdrop-blur shadow-xl p-6 rounded-2xl border border-primary/10"
+						>
+							<div class="flex items-center gap-3 mb-2">
+								<span class="w-3 h-3 bg-secondary rounded-full"></span>
+								<span class="font-label-caps text-label-caps text-secondary">
+									СИСТЕМА АКТИВНА
+								</span>
+							</div>
+							<p class="font-data-mono text-data-mono text-tertiary font-bold">
+								ОПЕРАЦИЙ: +142.5k
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section
+				class="py-24 px-10 max-w-7xl mx-auto"
+				id="services"
+			>
+				<div class="mb-16 text-center">
+					<h3 class="font-headline-md text-headline-md mb-4">
+						Наши клиенты и решения
+					</h3>
+					<p class="text-on-surface-variant font-body-md">
+						Специализированные инструменты для каждого типа бизнеса
+					</p>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+					<!-- ООО «Развитие» -->
+					<div
+						class="glass-card group p-card-padding rounded-[32px] hover:border-tertiary/40 transition-all duration-300"
+					>
+						<div
+							class="w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform"
+						>
+							<span
+								class="material-symbols-outlined text-3xl"
+								data-icon="corporate_fare"
+							>
+								corporate_fare
+							</span>
+						</div>
+						<h4 class="font-headline-sm text-headline-sm mb-4">
+							ООО «Развитие»
+						</h4>
+						<p class="text-on-surface-variant font-body-md mb-6">
+							Комплексный учет для крупных организаций. Автоматизация отчетности
+							и кадрового учета в одно нажатие.
+						</p>
+
+						<a
+							class="inline-flex items-center gap-2 text-tertiary font-bold hover:gap-3 transition-all"
+							href="{% url 'company_dashboard' %}"
+						>
+							Перейти к панели
+							<span class="material-symbols-outlined">arrow_forward</span>
+						</a>
+					</div>
+
+					<div
+						class="glass-card group p-card-padding rounded-[32px] hover:border-tertiary/40 transition-all duration-300"
+					>
+						<div
+							class="w-14 h-14 bg-secondary-container text-on-secondary-container rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform"
+						>
+							<span
+								class="material-symbols-outlined text-3xl"
+								data-icon="person_pin"
+							>
+								person_pin
+							</span>
+						</div>
+						<h4 class="font-headline-sm text-headline-sm mb-4">ИП Бухгалтерия "ZenAccounting"</h4>
+						<p class="text-on-surface-variant font-body-md mb-6">
+							Легкий старт и прозрачные налоги. Идеально для фрилансеров и
+							малого бизнеса на упрощенной системе.
+						</p>
+						<a
+							class="inline-flex items-center gap-2 text-tertiary font-bold hover:gap-3 transition-all"
+							href="{% url 'ip_accounting' %}"
+						>
+							Настроить профиль
+							<span class="material-symbols-outlined">arrow_forward</span>
+						</a>
+					</div>
+
+					<div
+						class="glass-card group p-card-padding rounded-[32px] hover:border-tertiary/40 transition-all duration-300 bg-gradient-to-br from-white/70 to-secondary/5"
+					>
+						<div
+							class="w-14 h-14 bg-tertiary text-on-tertiary rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform"
+						>
+							<span
+								class="material-symbols-outlined text-3xl"
+								data-icon="shopping_bag"
+							>
+								shopping_bag
+							</span>
+						</div>
+						<h4 class="font-headline-sm text-headline-sm mb-4">
+							Магазин аниме
+						</h4>
+						<p class="text-on-surface-variant font-body-md mb-6">
+							Специфический учет мерчандайза и фанатской атрибутики. Интеграция
+							с маркетплейсами и складской учет.
+						</p>
+						<a
+							class="inline-flex items-center gap-2 text-tertiary font-bold hover:gap-3 transition-all"
+							href="{% url 'anime_store' %}"
+						>
+							Открыть магазин
+							<span class="material-symbols-outlined">arrow_forward</span>
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<section
+				class="py-24 bg-surface-container-low/50 border-y border-outline-variant/20"
+				id="benefits"
+			>
+				<div class="px-10 max-w-7xl mx-auto">
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-12">
+						<div class="flex flex-col items-center text-center">
+							<div
+								class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 border border-primary/10"
+							>
+								<span
+									class="material-symbols-outlined text-tertiary text-3xl"
+									data-icon="shield"
+								>
+									shield
+								</span>
+							</div>
+							<h5 class="font-headline-sm text-headline-sm mb-2 text-lg">
+								Tax safety
+							</h5>
+							<p class="text-on-surface-variant text-body-sm">
+								Минимизация рисков и автоматическая проверка деклараций.
+							</p>
+						</div>
+						<div class="flex flex-col items-center text-center">
+							<div
+								class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 border border-primary/10"
+							>
+								<span
+									class="material-symbols-outlined text-tertiary text-3xl"
+									data-icon="sync"
+								>
+									sync
+								</span>
+							</div>
+							<h5 class="font-headline-sm text-headline-sm mb-2 text-lg">
+								Data exchange
+							</h5>
+							<p class="text-on-surface-variant text-body-sm">
+								Мгновенный обмен данными с банками и госсервисами.
+							</p>
+						</div>
+						<div class="flex flex-col items-center text-center">
+							<div
+								class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 border border-primary/10"
+							>
+								<span
+									class="material-symbols-outlined text-tertiary text-3xl"
+									data-icon="monitoring"
+								>
+									monitoring
+								</span>
+							</div>
+							<h5 class="font-headline-sm text-headline-sm mb-2 text-lg">
+								360 Analytics
+							</h5>
+							<p class="text-on-surface-variant text-body-sm">
+								Полный обзор ваших финансов в реальном времени.
+							</p>
+						</div>
+						<div class="flex flex-col items-center text-center">
+							<div
+								class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 border border-primary/10"
+							>
+								<span
+									class="material-symbols-outlined text-tertiary text-3xl"
+									data-icon="support_agent"
+								>
+									support_agent
+								</span>
+							</div>
+							<h5 class="font-headline-sm text-headline-sm mb-2 text-lg">
+								24/7 Support
+							</h5>
+							<p class="text-on-surface-variant text-body-sm">
+								Ваш персональный эксперт всегда на связи.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section
+				class="py-24 px-10 max-w-7xl mx-auto"
+				id="pricing"
+			>
+				<div class="mb-16">
+					<h3 class="font-headline-md text-headline-md mb-2">Тарифные планы</h3>
+					<p class="text-on-surface-variant">
+						Выберите оптимальный уровень поддержки вашего бизнеса
+					</p>
+				</div>
+				<div
+					class="overflow-x-auto rounded-[32px] border border-outline-variant/30 shadow-sm glass-card"
+				>
+					<table class="w-full text-left border-collapse">
+						<thead>
+							<tr
+								class="bg-surface-container-high/50 border-b border-outline-variant/30"
+							>
+								<th
+									class="p-8 font-label-caps text-label-caps text-on-surface-variant"
+								>
+									ВОЗМОЖНОСТИ
+								</th>
+								<th class="p-8">
+									<div class="text-headline-sm font-bold text-on-surface">
+										Standard
+									</div>
+									<div class="text-tertiary font-bold text-2xl">
+										₽ 5,000
+										<span
+											class="text-body-sm font-normal text-on-surface-variant"
+										>
+											/мес
+										</span>
+									</div>
+								</th>
+								<th class="p-8 relative">
+									<div
+										class="absolute -top-4 right-8 bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-[10px] font-bold"
+									>
+										ПОПУЛЯРНЫЙ
+									</div>
+									<div class="text-headline-sm font-bold text-on-surface">
+										Corporate
+									</div>
+									<div class="text-tertiary font-bold text-2xl">
+										₽ 12,000
+										<span
+											class="text-body-sm font-normal text-on-surface-variant"
+										>
+											/мес
+										</span>
+									</div>
+								</th>
+								<th class="p-8">
+									<div class="text-headline-sm font-bold text-on-surface">
+										Anime Shop
+									</div>
+									<div class="text-tertiary font-bold text-2xl">
+										₽ 8,500
+										<span
+											class="text-body-sm font-normal text-on-surface-variant"
+										>
+											/мес
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-outline-variant/20">
+							<tr class="hover:bg-primary-container/10 transition-colors">
+								<td class="p-8 text-on-surface-variant font-medium">
+									Количество компаний
+								</td>
+								<td class="p-8">До 1</td>
+								<td class="p-8 font-bold">До 5</td>
+								<td class="p-8">До 2</td>
+							</tr>
+							<tr
+								class="bg-primary-container/5 hover:bg-primary-container/10 transition-colors"
+							>
+								<td class="p-8 text-on-surface-variant font-medium">
+									Облачное хранилище
+								</td>
+								<td class="p-8">10 ГБ</td>
+								<td class="p-8 font-bold">100 ГБ</td>
+								<td class="p-8">50 ГБ</td>
+							</tr>
+							<tr class="hover:bg-primary-container/10 transition-colors">
+								<td class="p-8 text-on-surface-variant font-medium">
+									Интеграция с банками
+								</td>
+								<td class="p-8">
+									<span
+										class="material-symbols-outlined text-secondary"
+										data-icon="check_circle"
+									>
+										check_circle
+									</span>
+								</td>
+								<td class="p-8 font-bold">
+									<span
+										class="material-symbols-outlined text-secondary"
+										data-icon="check_circle"
+									>
+										check_circle
+									</span>
+								</td>
+								<td class="p-8">
+									<span
+										class="material-symbols-outlined text-secondary"
+										data-icon="check_circle"
+									>
+										check_circle
+									</span>
+								</td>
+							</tr>
+							<tr
+								class="bg-primary-container/5 hover:bg-primary-container/10 transition-colors"
+							>
+								<td class="p-8 text-on-surface-variant font-medium">
+									Аналитический дашборд
+								</td>
+								<td class="p-8">
+									<span
+										class="material-symbols-outlined text-outline"
+										data-icon="cancel"
+									>
+										cancel
+									</span>
+								</td>
+								<td class="p-8 font-bold">
+									<span
+										class="material-symbols-outlined text-secondary"
+										data-icon="check_circle"
+									>
+										check_circle
+									</span>
+								</td>
+								<td class="p-8">
+									<span
+										class="material-symbols-outlined text-secondary"
+										data-icon="check_circle"
+									>
+										check_circle
+									</span>
+								</td>
+							</tr>
+							<tr class="hover:bg-primary-container/10 transition-colors">
+								<td class="p-8 text-on-surface-variant font-medium">
+									Спец. учет мерча
+								</td>
+								<td class="p-8">
+									<span
+										class="material-symbols-outlined text-outline"
+										data-icon="cancel"
+									>
+										cancel
+									</span>
+								</td>
+								<td class="p-8">
+									<span
+										class="material-symbols-outlined text-outline"
+										data-icon="cancel"
+									>
+										cancel
+									</span>
+								</td>
+								<td class="p-8 font-bold">
+									<span
+										class="material-symbols-outlined text-secondary"
+										data-icon="check_circle"
+									>
+										check_circle
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="p-8"></td>
+								<td class="p-8">
+									<button
+										class="w-full py-3 bg-secondary-container text-secondary rounded-lg font-bold hover:bg-secondary hover:text-white transition-all"
+									>
+										Выбрать
+									</button>
+								</td>
+								<td class="p-8">
+									<button
+										class="w-full py-3 bg-tertiary text-on-tertiary rounded-lg font-bold shadow-lg shadow-tertiary/30 hover:scale-105 transition-all"
+									>
+										Оформить
+									</button>
+								</td>
+								<td class="p-8">
+									<button
+										class="w-full py-3 bg-secondary-container text-secondary rounded-lg font-bold hover:bg-secondary hover:text-white transition-all"
+									>
+										Выбрать
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</main>
+
+		<footer
+			class="bg-surface border-t border-outline-variant/20 w-full py-12 px-10"
+		>
+			<div
+				class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 mb-12"
+			>
+				<div class="max-w-sm">
+					<div class="flex items-center gap-2 mb-6">
+						<span
+							class="material-symbols-outlined text-tertiary text-3xl"
+							data-icon="account_balance"
+						>
+							account_balance
+						</span>
+						<span
+							class="font-headline-sm text-headline-sm font-bold text-tertiary"
+						>
+							ZenAccounting
+						</span>
+					</div>
+					<p class="text-on-surface-variant text-body-sm leading-relaxed">
+						Профессиональное решение для финансового благополучия вашего
+						бизнеса. Мы делаем учет прозрачным, легким и технологичным.
+					</p>
+				</div>
+				<div class="grid grid-cols-2 md:grid-cols-3 gap-16">
+					<div>
+						<h6
+							class="font-label-caps text-label-caps text-on-surface font-bold mb-6"
+						>
+							Продукт
+						</h6>
+						<ul class="space-y-4 text-body-sm text-on-surface-variant">
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Функции
+								</a>
+							</li>
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Безопасность
+								</a>
+							</li>
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Интеграции
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h6
+							class="font-label-caps text-label-caps text-on-surface font-bold mb-6"
+						>
+							Компания
+						</h6>
+						<ul class="space-y-4 text-body-sm text-on-surface-variant">
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									О нас
+								</a>
+							</li>
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Блог
+								</a>
+							</li>
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Карьера
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h6
+							class="font-label-caps text-label-caps text-on-surface font-bold mb-6"
+						>
+							Поддержка
+						</h6>
+						<ul class="space-y-4 text-body-sm text-on-surface-variant">
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Помощь
+								</a>
+							</li>
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									Контакты
+								</a>
+							</li>
+							<li>
+								<a
+									class="hover:text-tertiary transition-colors"
+									href="#"
+								>
+									API
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div
+				class="max-w-7xl mx-auto pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6"
+			>
+				<span class="font-label-caps text-label-caps text-on-surface-variant">
+					© 6 ZenAccounting. System Status: All Systems Operational.
+				</span>
+				<div class="flex gap-8">
+					<a
+						class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors underline decoration-tertiary/30"
+						href="#"
+					>
+						Privacy Policy
+					</a>
+					<a
+						class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors underline decoration-tertiary/30"
+						href="#"
+					>
+						Terms of Service
+					</a>
+					<a
+						class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors underline decoration-tertiary/30"
+						href="#"
+					>
+						Legal
+					</a>
+				</div>
+			</div>
+		</footer>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const observerOptions = { threshold: 0.1 }
+				const observer = new IntersectionObserver(entries => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('opacity-100', 'translate-y-0')
+							entry.target.classList.remove('opacity-0', 'translate-y-8')
+						}
+					})
+				}, observerOptions)
+
+				document.querySelectorAll('section').forEach(section => {
+					section.classList.add(
+						'transition-all',
+						'duration-1000',
+						'opacity-0',
+						'translate-y-8'
+					)
+					observer.observe(section)
+				})
+			})
+		</script>
+	</body>
+</html>

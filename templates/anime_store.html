@@ -1,0 +1,433 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZenAccounting • Handmade Anime Figures</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { /* ... ваши цвета ... (оставьте как есть) */ },
+                    borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+                    spacing: { gutter: '24px', 'margin-mobile': '16px', 'max-width': '1440px', 'margin-desktop': '64px', base: '8px', 'section-gap': '64px', 'card-padding': '24px', 'container-margin-mobile': '16px', 'container-margin-desktop': '40px', unit: '4px' },
+                    fontFamily: { 'label-sm': ['Manrope'], 'headline-lg': ['Manrope'], 'label-md': ['Manrope'], 'body-lg': ['Manrope'], 'display-lg': ['Manrope'], 'display-lg-mobile': ['Manrope'], 'headline-md': ['Manrope'], 'body-md': ['Manrope'], 'label-caps': ['Manrope'], 'body-sm': ['Manrope'], 'data-mono': ['JetBrains Mono'] },
+                    fontSize: { /* ... ваши размеры ... */ }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ... все ваши стили (animated-bg, glass-card и т.д.) оставьте без изменений ... */
+        body { font-family: 'Manrope', sans-serif; background-color: transparent; margin: 0; overflow-x: hidden; }
+        .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 20% 30%, rgba(255, 220, 180, 0.2), rgba(210, 140, 100, 0.08)); }
+        .animated-bg::before { content: ""; position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; background: repeating-linear-gradient(45deg, rgba(230, 197, 0, 0.08) 0px, rgba(230, 197, 0, 0.08) 2px, transparent 2px, transparent 8px), radial-gradient(ellipse at 70% 40%, rgba(181, 38, 25, 0.12) 0%, transparent 60%); animation: slowDrift 36s infinite alternate ease-in-out; pointer-events: none; }
+        @keyframes slowDrift { 0% { transform: translate(0%, 0%) rotate(0deg); } 100% { transform: translate(-6%, 4%) rotate(2deg); } }
+        .custom-bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.38; pointer-events: none; background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); }
+        .glass-card { background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(16px); border: 1px solid rgba(207, 198, 171, 0.55); transition: all 0.25s ease; }
+        .glass-card:hover { background: rgba(255, 255, 245, 0.92); border-color: rgba(181, 38, 25, 0.4); box-shadow: 0 12px 28px -10px rgba(0,0,0,0.1); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cfc6ab; border-radius: 10px; }
+        .floating-artwork { position: fixed; bottom: 28px; right: 28px; width: 96px; height: 96px; z-index: 40; cursor: pointer; filter: drop-shadow(0 12px 20px rgba(0,0,0,0.2)); transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); animation: floatGlide 5s infinite alternate ease-in-out; }
+        .floating-artwork:hover { transform: scale(1.08) rotate(3deg); }
+        @keyframes floatGlide { 0% { transform: translateY(0px) rotate(0deg); } 100% { transform: translateY(-14px) rotate(2deg); } }
+        .floating-artwork .image-wrapper { width: 100%; height: 100%; border-radius: 50%; background: rgba(255,240,220,0.85); backdrop-filter: blur(8px); border: 2px solid #b52619; box-shadow: 0 8px 18px rgba(181,38,25,0.3); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .floating-artwork img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .tooltip-float { position: absolute; bottom: 110%; right: 0; background: #1c1b1bdd; backdrop-filter: blur(8px); color: #ffdad4; font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 60px; white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none; font-family: 'Manrope', monospace; letter-spacing: 0.3px; }
+        .floating-artwork:hover .tooltip-float { opacity: 1; }
+
+		/* Модальное окно */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.2s;
+}
+.modal-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+.modal-container {
+    background: white;
+    border-radius: 24px;
+    max-width: 420px;
+    width: 90%;
+    padding: 28px 24px;
+    box-shadow: 0 24px 48px -12px rgba(0,0,0,0.4);
+    text-align: center;
+    transform: scale(0.95);
+    transition: transform 0.2s;
+}
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+.modal-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #2c2b28;
+}
+.modal-body {
+    margin: 20px 0;
+    color: #4a4742;
+}
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.modal-btn {
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+.modal-btn-confirm {
+    background: #b52619;
+    color: white;
+}
+.modal-btn-confirm:hover {
+    background: #8e1f14;
+    transform: translateY(-2px);
+}
+.modal-btn-cancel {
+    background: #e9e6dd;
+    color: #2c2b28;
+}
+.modal-btn-cancel:hover {
+    background: #d9d4c8;
+}
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+.animate-slide-down {
+    animation: slideDown 0.3s ease forwards;
+}
+    </style>
+</head>
+<body class="text-on-surface min-h-screen relative">
+    <div class="animated-bg"></div>
+    <div class="custom-bg-image"></div>
+{% if messages %}
+<div class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+    {% for message in messages %}
+    <div class="bg-white rounded-xl shadow-2xl border-l-4 border-tertiary p-4 mb-3 animate-slide-down flex items-center gap-3" role="alert">
+        <span class="material-symbols-outlined text-tertiary">check_circle</span>
+        <div class="flex-1 text-on-surface">{{ message }}</div>
+        <button onclick="this.parentElement.remove()" class="text-outline hover:text-error transition">✕</button>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    // Автоматическое исчезновение через 4 секунды
+    setTimeout(() => {
+        document.querySelectorAll('[role="alert"]').forEach(toast => {
+            toast.style.transition = 'opacity 0.3s';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        });
+    }, 4000);
+</script>
+{% endif %}
+    <div class="flex relative z-10">
+        <main class="w-full p-6 md:p-8 space-y-8">
+            <!-- Фильтры + сетка товаров -->
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Sidebar Filters (динамическая форма) -->
+                <div class="w-full lg:w-72 flex-shrink-0 space-y-6">
+                    <form method="get" class="glass-card rounded-xl p-6 space-y-6">
+                        <div>
+                            <h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-widest">🌸 Категории</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input name="category" value="resin" type="checkbox" {% if 'resin' in selected_categories %}checked{% endif %} class="rounded border-outline text-tertiary focus:ring-tertiary/20">
+                                    <span class="text-body-md text-on-surface group-hover:text-tertiary transition-colors">Смоляные фигурки</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input name="category" value="clay" type="checkbox" {% if 'clay' in selected_categories %}checked{% endif %} class="rounded border-outline text-tertiary focus:ring-tertiary/20">
+                                    <span class="text-body-md text-on-surface group-hover:text-tertiary transition-colors">Полимерная глина</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input name="category" value="doll" type="checkbox" {% if 'doll' in selected_categories %}checked{% endif %} class="rounded border-outline text-tertiary focus:ring-tertiary/20">
+                                    <span class="text-body-md text-on-surface group-hover:text-tertiary transition-colors">Арт-куклы</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input name="category" value="diorama" type="checkbox" {% if 'diorama' in selected_categories %}checked{% endif %} class="rounded border-outline text-tertiary focus:ring-tertiary/20">
+                                    <span class="text-body-md text-on-surface group-hover:text-tertiary transition-colors">Миниатюры</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-outline-variant/20">
+                            <h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase tracking-widest">Цена (¥)</h3>
+                            <div class="px-2">
+                                <input type="range" name="max_price" min="0" max="100000" value="{{ max_price|default:85000 }}" class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-tertiary" oninput="this.nextElementSibling.value = this.value">
+                                <output class="block text-right text-data-mono text-on-surface-variant mt-1">¥{{ max_price|default:85000 }}</output>
+                                <div class="flex justify-between mt-3 text-data-mono text-on-surface-variant">
+                                    <span>¥0</span>
+                                    <span>¥100,000</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-3 rounded-lg bg-surface-variant/30 text-tertiary font-bold hover:bg-primary-container hover:text-on-primary-container transition-all text-body-sm">Применить фильтры</button>
+                        <a href="{% url 'anime_store' %}" class="block text-center w-full py-2 rounded-lg text-tertiary/70 hover:text-tertiary text-body-sm">Сбросить фильтры</a>
+                    </form>
+                    <div class="bg-tertiary/5 rounded-xl p-6 border border-tertiary/10">
+                        <div class="flex items-center gap-2 text-tertiary mb-2">
+                            <span class="material-symbols-outlined text-[18px]">info</span>
+                            <span class="font-label-caps text-label-caps uppercase">Мастерская Mochi Studio</span>
+                        </div>
+                        <p class="text-body-sm text-on-surface-variant leading-relaxed">Каждая фигурка создаётся вручную, уникальная детализация. Курс: 1 JPY ≈ 0.62 RUB. Прямая поддержка художников.</p>
+                    </div>
+                </div>
+
+                <!-- Product Grid (динамические карточки) -->
+                <div class="flex-1 space-y-6">
+                    <div class="flex flex-wrap justify-between items-center gap-3 mb-2">
+                        <h1 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                            ✨ Handmade коллекция <span class="text-tertiary text-body-lg font-mono">(уникальные фигурки)</span>
+                        </h1>
+                        <div class="flex gap-2">
+                            <button class="bg-surface-container-high px-4 py-2 rounded-lg text-body-sm font-medium hover:bg-surface-variant transition-all">Сортировка: эксклюзивы</button>
+                        
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+                        {% for product in products %}
+                        <div class="glass-card rounded-xl overflow-hidden group hover:border-tertiary/40 transition-all duration-300">
+                            <div class="h-56 bg-surface-container relative overflow-hidden">
+                                <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ product.image_url }}" alt="{{ product.name }}">
+                                <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">{{ product.get_category_display }}</span>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <h3 class="font-headline-sm text-[18px] text-on-surface line-clamp-1">{{ product.name }}</h3>
+                                <p class="text-body-sm text-on-surface-variant">{{ product.description|truncatewords:12 }}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="font-data-mono text-headline-sm text-tertiary">¥{{ product.price }}</span>
+                                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="bg-tertiary/10 text-tertiary font-bold px-6 py-2 rounded-lg hover:bg-tertiary hover:text-on-primary transition-all text-body-sm">В КОРЗИНУ</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-span-full text-center py-12 text-on-surface-variant">Нет товаров в выбранной категории.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Корзина / предварительный расчёт (динамическая) -->
+            <section class="mt-10">
+                <div class="glass-card rounded-2xl overflow-hidden shadow-xl border border-tertiary/20">
+                    <div class="p-6 bg-tertiary-container text-on-tertiary-container flex flex-wrap justify-between items-center gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                            <h2 class="font-headline-sm text-headline-sm">КОРЗИНА (handmade)</h2>
+                        </div>
+                        <span class="bg-white/20 px-3 py-1 rounded-full font-data-mono text-label-caps">ID сессии: ZA-{{ request.session.session_key|default:"НОВАЯ"|slice:":6" }}</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container text-on-surface-variant border-b border-outline-variant/30">
+                                    <th class="px-6 py-4 text-left font-label-caps text-label-caps uppercase">Наименование</th>
+                                    <th class="px-6 py-4 text-left font-label-caps text-label-caps uppercase">Категория</th>
+                                    <th class="px-6 py-4 text-right font-label-caps text-label-caps uppercase">Кол-во</th>
+                                    <th class="px-6 py-4 text-right font-label-caps text-label-caps uppercase">Цена за ед.</th>
+                                    <th class="px-6 py-4 text-right font-label-caps text-label-caps uppercase">Итого</th>
+                                    <th class="px-6 py-4 w-16"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant/20">
+                                {% for item in cart_items %}
+                                <tr class="hover:bg-tertiary/5 transition-colors">
+                                    <td class="px-6 py-4 text-body-md font-bold">{{ item.name }}</td>
+                                    <td class="px-6 py-4"><span class="bg-surface-variant px-2 py-1 rounded-full text-[12px] font-medium">{{ item.category_display }}</span></td>
+                                    <td class="px-6 py-4 text-right">
+                                        <form method="post" action="{% url 'update_cart_quantity' item.id 0 %}" 
+      class="inline-flex items-center gap-1" 
+      data-base-url="{% url 'update_cart_quantity' item.id 0 %}"
+	  data-product-id="{{ item.id }}">
+    {% csrf_token %}
+
+    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" 
+           class="w-16 text-center border rounded px-1 py-0.5 text-sm" 
+		   onchange="this.form.action = '/update-cart/' + this.form.dataset.productId + '/' + this.value + '/'; this.form.submit();">
+</form>
+                                    </td>
+                                    <td class="px-6 py-4 text-right font-data-mono">¥{{ item.price }}</td>
+                                    <td class="px-6 py-4 text-right font-data-mono font-bold text-tertiary">¥{{ item.total }}</td>
+                                    <td class="px-6 py-4 text-center">
+                                        <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="text-outline hover:text-error transition-colors">
+                                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="6" class="text-center py-8 text-on-surface-variant">Корзина пуста. Добавьте товары!</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-8 bg-surface-container-low flex flex-col md:flex-row justify-between items-end gap-6">
+                        <div class="space-y-2 text-body-sm text-on-surface-variant">
+                            <div class="flex gap-4"><span>Метод оплаты:</span><span class="text-on-surface font-bold">Ручная работа / Прямой счёт (JPY)</span></div>
+                            <div class="flex gap-4"><span>Доставка:</span><span class="text-on-surface font-bold">Japan Post EMS • ¥3,800 (страхование)</span></div>
+                            <div class="flex gap-4"><span>Статус Ledger:</span><span class="text-tertiary font-bold">Автоматический учёт продаж</span></div>
+                        </div>
+                        <div class="w-full md:w-80 space-y-4">
+                            <div class="flex justify-between items-center text-body-lg">
+                                <span class="text-on-surface-variant">Подытог:</span>
+                                <span class="font-data-mono">¥{{ cart_total|floatformat:"0" }}</span>
+                            </div>
+                            <div class="flex justify-between items-center text-body-lg">
+                                <span class="text-on-surface-variant">Налог (VAT 10%):</span>
+                                <span class="font-data-mono">¥{{ tax|floatformat:"0" }}</span>
+                            </div>
+                            <div class="pt-4 border-t border-outline-variant flex justify-between items-center">
+                                <span class="font-headline-sm text-headline-sm">ИТОГО:</span>
+                                <span class="font-display-lg text-[32px] text-tertiary">¥{{ grand_total|floatformat:"0" }}</span>
+                            </div>
+                            <form method="post" action="{% url 'checkout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full bg-tertiary text-on-tertiary py-4 rounded-xl font-bold text-body-lg shadow-lg hover:shadow-tertiary/30 hover:translate-y-[-2px] transition-all uppercase tracking-wider" {% if not cart_items %}disabled{% endif %}>ОФОРМИТЬ ЗАКАЗ</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="w-full py-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-6"><span class="font-label-caps text-label-caps text-on-surface-variant">© 2026 ZenAccounting • Handmade Anime Figures Atelier.</span></div>
+                <div class="flex gap-6">
+                    <a href="#" class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Privacy Policy</a>
+                    <a href="#" class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Terms of Service</a>
+                    <a href="#" class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Legal</a>
+                    <a href="#" class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary transition-colors">Contact</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        const floatDiv = document.getElementById('floatingMascot');
+        const floatImg = document.getElementById('userFloatingImage');
+        if (floatDiv) {
+            floatDiv.addEventListener('click', () => {
+                const userUrl = prompt('Вставьте ссылку на картинку (URL)', floatImg.src);
+                if (userUrl && userUrl.trim() !== '') {
+                    floatImg.src = userUrl.trim();
+                    localStorage.setItem('zenFloatImage', userUrl.trim());
+                }
+            });
+            const saved = localStorage.getItem('zenFloatImage');
+            if (saved) floatImg.src = saved;
+        }
+        // Эффект нажатия на карточки
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+		 const modal = document.getElementById('checkoutModal');
+    const confirmBtn = document.getElementById('confirmOrderBtn');
+    const cancelBtn = document.getElementById('cancelOrderBtn');
+    const checkoutForm = document.querySelector('form[action*="checkout"]'); // находим форму оформления
+
+    if (checkoutForm) {
+        // Перехватываем отправку формы
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // не отправляем сразу
+            modal.classList.add('active'); // показываем модальное окно
+        });
+
+        // Кнопка "Оформить" в модалке
+        confirmBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            checkoutForm.submit(); // отправляем форму
+        });
+
+        // Кнопка "Отмена"
+        cancelBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        // Закрытие по клику на оверлей
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    }
+
+    // ... остальной ваш JavaScript (floating mascot, эффекты карточек) остаётся без изменений
+    const floatDiv = document.getElementById('floatingMascot');
+    const floatImg = document.getElementById('userFloatingImage');
+    if (floatDiv) {
+        floatDiv.addEventListener('click', () => {
+            const userUrl = prompt('Вставьте ссылку на картинку (URL)', floatImg.src);
+            if (userUrl && userUrl.trim() !== '') {
+                floatImg.src = userUrl.trim();
+                localStorage.setItem('zenFloatImage', userUrl.trim());
+            }
+        });
+        const saved = localStorage.getItem('zenFloatImage');
+        if (saved) floatImg.src = saved;
+    }
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+        card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+        card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+    });
+    </script>
+
+	<!-- Модальное окно подтверждения заказа -->
+<div id="checkoutModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-title">🛒 Подтверждение заказа</div>
+        <div class="modal-body">
+            Вы оформляете заказ на <strong>ручные фигурки</strong>.<br>
+            С вами свяжется мастер для уточнения деталей.<br><br>
+            <span class="text-tertiary font-bold">Итоговая сумма: ¥{{ grand_total|floatformat:"0" }}</span>
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-confirm" id="confirmOrderBtn">✅ Оформить</button>
+            <button class="modal-btn modal-btn-cancel" id="cancelOrderBtn">❌ Отмена</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

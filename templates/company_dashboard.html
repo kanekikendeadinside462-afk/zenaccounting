@@ -1,0 +1,609 @@
+<!doctype html>
+
+<html
+	class="light"
+	lang="ru"
+>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			content="width=device-width, initial-scale=1.0"
+			name="viewport"
+		/>
+		<title>ZenAccounting - Бухгалтерия ООО под ключ</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							'on-secondary-container': '#603100',
+							error: '#ba1a1a',
+							'tertiary-fixed-dim': '#ffb4a8',
+							surface: '#fcf9f8',
+							'surface-container-low': '#f6f3f2',
+							'primary-container': '#feda00',
+							'on-tertiary-fixed-variant': '#920703',
+							'on-secondary-fixed': '#2f1500',
+							'inverse-surface': '#313030',
+							'secondary-container': '#fd8b00',
+							'on-secondary': '#ffffff',
+							'tertiary-container': '#ffd1ca',
+							'inverse-on-surface': '#f3f0ef',
+							'tertiary-fixed': '#ffdad4',
+							'on-surface': '#1c1b1b',
+							'on-primary-fixed': '#221b00',
+							background: '#fcf9f8',
+							'on-tertiary': '#ffffff',
+							'secondary-fixed-dim': '#ffb77d',
+							secondary: '#904d00',
+							outline: '#7e775f',
+							'surface-variant': '#e5e2e1',
+							'primary-fixed': '#ffe25c',
+							'on-tertiary-container': '#b7281b',
+							'inverse-primary': '#e6c500',
+							'surface-tint': '#6e5e00',
+							'surface-container-high': '#eae7e7',
+							'surface-dim': '#dcd9d9',
+							'on-error-container': '#93000a',
+							primary: '#6e5e00',
+							'on-tertiary-fixed': '#410000',
+							'on-primary': '#ffffff',
+							'surface-container-highest': '#e5e2e1',
+							'on-error': '#ffffff',
+							'on-primary-fixed-variant': '#534600',
+							'surface-container-lowest': '#ffffff',
+							tertiary: '#8b0000',
+							'surface-container': '#f0eded',
+							'secondary-fixed': '#ffdcc3',
+							'on-secondary-fixed-variant': '#6e3900',
+							'on-background': '#1c1b1b',
+							'primary-fixed-dim': '#e6c500',
+							'on-primary-container': '#705f00',
+							'on-surface-variant': '#4c4732',
+							'surface-bright': '#fcf9f8',
+							'error-container': '#ffdad6',
+							'outline-variant': '#cfc6ab'
+						},
+						borderRadius: {
+							DEFAULT: '0.25rem',
+							lg: '0.5rem',
+							xl: '0.75rem',
+							full: '9999px'
+						},
+						spacing: {
+							'max-width': '1440px',
+							'margin-desktop': '64px',
+							'margin-mobile': '16px',
+							gutter: '24px',
+							base: '8px'
+						},
+						fontFamily: {
+							manrope: ['Manrope', 'sans-serif']
+						}
+					}
+				}
+			}
+		</script>
+		<style>
+			html {
+				scroll-behavior: smooth;
+			}
+
+			section {
+				scroll-margin-top: 100px;
+			}
+
+			.glass-card {
+				background: rgba(255, 255, 255, 0.8);
+				backdrop-filter: blur(12px);
+				border: 1px solid rgba(0, 0, 0, 0.05);
+			}
+
+			.service-card:hover {
+				transform: translateY(-4px);
+				border-color: #fd8b00;
+			}
+
+			.faq-answer {
+				max-height: 0;
+				overflow: hidden;
+				transition: max-height 0.3s ease-out;
+			}
+
+			.faq-item.active .faq-answer {
+				max-height: 200px;
+			}
+
+			.faq-item.active .faq-icon {
+				transform: rotate(180deg);
+			}
+
+			input[type='range'] {
+				accent-color: #8b0000;
+			}
+		</style>
+	</head>
+	<body class="bg-surface text-on-surface">
+		<!-- Navigation -->
+		<nav class="fixed top-0 w-full z-50 glass-card px-6 py-4">
+			<div class="max-w-[1440px] mx-auto flex justify-between items-center">
+				<h1 class="text-2xl font-extrabold text-tertiary">ZenAccounting</h1>
+				<div class="hidden md:flex gap-8 font-semibold text-on-surface-variant">
+					<a
+						class="hover:text-tertiary transition-colors"
+						href="#services"
+					>
+						Услуги
+					</a>
+					<a
+						class="hover:text-tertiary transition-colors"
+						href="#calculator"
+					>
+						Калькулятор
+					</a>
+					<a
+						class="hover:text-tertiary transition-colors"
+						href="#faq"
+					>
+						FAQ
+					</a>
+					<a
+						class="hover:text-tertiary transition-colors"
+						href="#contacts"
+					>
+						Контакты
+					</a>
+				</div>
+				<a
+					class="bg-primary-container text-on-primary-fixed px-6 py-2 rounded-lg font-bold hover:bg-secondary-container transition-all"
+					href="#contacts"
+				>
+					Связаться
+				</a>
+			</div>
+		</nav>
+
+		<section
+			class="pt-32 pb-20 px-6 bg-gradient-to-br from-tertiary-fixed via-surface to-surface"
+		>
+			<div
+				class="max-w-[1440px] mx-auto grid md:grid-cols-2 gap-12 items-center"
+			>
+				<div class="space-y-8">
+					<h2
+						class="text-5xl md:text-6xl font-extrabold leading-tight text-on-background"
+					>
+						{{ settings.hero_title }}
+						<span class="text-tertiary">{{ settings.hero_title_colored }}</span>
+					</h2>
+					<p class="text-lg md:text-xl text-on-surface-variant max-w-lg">
+						{{ settings.hero_description }}
+					</p>
+					<div class="flex flex-col sm:flex-row gap-4">
+						<button
+							class="bg-tertiary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-on-tertiary-container shadow-lg shadow-tertiary/20 flex items-center justify-center gap-2 transition-all"
+							onclick="
+								document
+									.getElementById('calculator')
+									.scrollIntoView({ behavior: 'smooth' })
+							"
+						>
+							Рассчитать стоимость
+							<span class="material-symbols-outlined">calculate</span>
+						</button>
+						<button
+							class="border-2 border-outline-variant text-on-surface-variant px-8 py-4 rounded-xl font-bold text-lg hover:bg-surface-variant transition-all"
+						>
+							Узнать больше
+						</button>
+					</div>
+				</div>
+				<div class="relative hidden md:block">
+					<div
+						class="absolute -top-10 -left-10 w-40 h-40 bg-primary-container/30 rounded-full blur-3xl"
+					></div>
+					<div
+						class="glass-card p-8 rounded-3xl relative overflow-hidden border-2 border-white/50"
+					>
+						<div class="flex items-center gap-4 mb-6">
+							<div
+								class="w-12 h-12 bg-secondary-container rounded-lg flex items-center justify-center text-white"
+							>
+								<span class="material-symbols-outlined">verified_user</span>
+							</div>
+							<div>
+								<p class="font-bold">100% Безопасность</p>
+								<p class="text-sm text-on-surface-variant">
+									Застраховано на 50 млн ₽
+								</p>
+							</div>
+						</div>
+						<div class="space-y-4">
+							<div class="h-2 bg-surface-variant rounded-full w-full"></div>
+							<div class="h-2 bg-surface-variant rounded-full w-4/5"></div>
+							<div class="h-2 bg-surface-variant rounded-full w-3/4"></div>
+						</div>
+					</div>
+					<div
+						class="absolute -bottom-6 -right-6 glass-card p-6 rounded-2xl border-l-4 border-tertiary shadow-xl"
+					>
+						<p class="text-2xl font-black text-tertiary">15 лет</p>
+						<p class="text-sm font-bold opacity-70 uppercase tracking-tighter">
+							Опыта в РФ
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section
+			class="py-24 px-6"
+			id="services"
+		>
+			<div class="max-w-[1440px] mx-auto">
+				<div class="text-center mb-16">
+					<span
+						class="text-tertiary font-bold tracking-widest uppercase text-sm"
+					>
+						Наши экспертизы
+					</span>
+					<h2 class="text-4xl font-extrabold mt-2">Комплексное обслуживание</h2>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+					{% for service in services %}
+					<div
+						class="service-card glass-card p-8 rounded-2xl transition-all duration-300"
+					>
+						<div
+							class="w-14 h-14 bg-surface-container-high rounded-xl flex items-center justify-center text-tertiary mb-6"
+						>
+							<span class="material-symbols-outlined text-3xl">
+								{{ service.icon }}
+							</span>
+						</div>
+
+						<h3 class="text-xl font-bold mb-3">{{ service.title }}</h3>
+
+						<p class="text-on-surface-variant leading-relaxed">
+							{{ service.description }}
+						</p>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section
+			class="py-24 px-6 bg-surface-container-low"
+			id="calculator"
+		>
+			<div class="max-w-4xl mx-auto">
+				<div
+					class="glass-card p-10 rounded-3xl shadow-2xl overflow-hidden relative"
+				>
+					<div
+						class="absolute top-0 right-0 w-32 h-32 bg-primary-container/20 rounded-bl-[100px]"
+					></div>
+					<h2 class="text-3xl font-extrabold mb-10 text-center">
+						Калькулятор стоимости
+					</h2>
+					<div class="space-y-10">
+						<div>
+							<label
+								class="block text-sm font-bold uppercase tracking-wider mb-4 opacity-70"
+							>
+								Система налогообложения
+							</label>
+							<div class="grid grid-cols-2 gap-4">
+								<label
+									class="flex items-center gap-3 p-4 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-tertiary transition-all has-[:checked]:bg-tertiary/5 has-[:checked]:border-tertiary"
+								>
+									<input
+										checked=""
+										class="text-tertiary focus:ring-tertiary h-5 w-5"
+										name="tax_system"
+										onchange="updateCalc()"
+										type="radio"
+										value="usn"
+									/>
+									<span class="font-bold">УСН (6-15%)</span>
+								</label>
+								<label
+									class="flex items-center gap-3 p-4 border-2 border-outline-variant rounded-xl cursor-pointer hover:border-tertiary transition-all has-[:checked]:bg-tertiary/5 has-[:checked]:border-tertiary"
+								>
+									<input
+										class="text-tertiary focus:ring-tertiary h-5 w-5"
+										name="tax_system"
+										onchange="updateCalc()"
+										type="radio"
+										value="osno"
+									/>
+									<span class="font-bold">ОСНО (НДС)</span>
+								</label>
+							</div>
+						</div>
+
+						<div>
+							<div class="flex justify-between items-center mb-4">
+								<label
+									class="text-sm font-bold uppercase tracking-wider opacity-70"
+								>
+									Количество сотрудников
+								</label>
+								<span
+									class="text-2xl font-black text-tertiary"
+									id="empCountDisplay"
+								>
+									5
+								</span>
+							</div>
+							<input
+								class="w-full h-3 bg-surface-variant rounded-lg appearance-none cursor-pointer"
+								id="empRange"
+								max="50"
+								min="0"
+								oninput="updateCalc()"
+								type="range"
+								value="5"
+							/>
+							<div
+								class="flex justify-between mt-2 text-xs font-bold text-on-surface-variant"
+							>
+								<span>0</span>
+								<span>25</span>
+								<span>50+</span>
+							</div>
+						</div>
+						<!-- Total -->
+						<div
+							class="bg-surface-container-highest p-8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6"
+						>
+							<div>
+								<p class="text-sm font-bold opacity-60">
+									Ориентировочная стоимость в месяц:
+								</p>
+								<p class="text-4xl font-extrabold text-on-background">
+									<span id="totalPrice">8 500</span>
+									₽
+								</p>
+							</div>
+							<button
+								class="bg-tertiary text-white px-10 py-4 rounded-xl font-bold hover:scale-105 transition-transform"
+							>
+								Подключить тариф
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section
+			class="py-24 px-6"
+			id="faq"
+		>
+			<div class="max-w-3xl mx-auto">
+				<h2 class="text-4xl font-extrabold mb-12 text-center">
+					Часто задаваемые вопросы
+				</h2>
+				<div class="space-y-4">
+					{% for faq in faqs %}
+					<div
+						class="faq-item glass-card rounded-2xl overflow-hidden cursor-pointer"
+						onclick="toggleFaq(this)"
+					>
+						<div class="p-6 flex justify-between items-center bg-white/50">
+							<span class="font-bold text-lg">{{ faq.question }}</span>
+
+							<span
+								class="material-symbols-outlined faq-icon transition-transform"
+							>
+								expand_more
+							</span>
+						</div>
+
+						<div class="faq-answer px-6">
+							<div
+								class="py-4 text-on-surface-variant border-t border-outline-variant/10"
+							>
+								{{ faq.answer }}
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section
+			class="py-24 px-6 bg-on-background text-white"
+			id="contacts"
+		>
+			<div class="max-w-[1440px] mx-auto grid lg:grid-cols-2 gap-16">
+				<div class="space-y-12">
+					<div>
+						<h2 class="text-4xl font-extrabold mb-6">
+							Давайте обсудим ваш проект
+						</h2>
+						<p class="text-surface-variant text-lg">
+							Оставьте заявку, и наш главный бухгалтер перезвонит вам в течение
+							15 минут для консультации.
+						</p>
+					</div>
+					<div class="space-y-6">
+						<div class="flex items-center gap-6">
+							<div
+								class="w-12 h-12 rounded-full bg-tertiary flex items-center justify-center"
+							>
+								<span class="material-symbols-outlined">call</span>
+							</div>
+							<div>
+								<p class="text-sm opacity-60">Телефон</p>
+								<p class="text-xl font-bold">{{ settings.phone }}</p>
+							</div>
+						</div>
+						<div class="flex items-center gap-6">
+							<div
+								class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center"
+							>
+								<span class="material-symbols-outlined">mail</span>
+							</div>
+							<div>
+								<p class="text-sm opacity-60">Email</p>
+								<p class="text-xl font-bold">{{ settings.email }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white rounded-3xl p-10 text-on-background shadow-2xl">
+					<form
+						method="post"
+						class="space-y-6"
+					>
+						{% csrf_token %}
+
+						<div>
+							<label class="block text-sm font-bold mb-2">Ваше имя</label>
+							{{ form.name }} {{ form.name.errors }}
+						</div>
+
+						<div>
+							<label class="block text-sm font-bold mb-2">
+								Контактный телефон
+							</label>
+							{{ form.phone }} {{ form.phone.errors }}
+						</div>
+
+						<div>
+							<label class="block text-sm font-bold mb-2">
+								Сообщение (необязательно)
+							</label>
+							{{ form.message }} {{ form.message.errors }}
+						</div>
+
+						<button
+							class="w-full bg-tertiary text-white py-4 rounded-xl font-bold text-lg hover:bg-on-tertiary-container shadow-xl transition-all flex items-center justify-center gap-2"
+							type="submit"
+						>
+							Отправить запрос
+							<span class="material-symbols-outlined">send</span>
+						</button>
+
+						<p class="text-xs text-on-surface-variant text-center">
+							Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности.
+						</p>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<footer class="py-12 px-6 border-t border-outline-variant/20">
+			<div
+				class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8"
+			>
+				<div>
+					<h1 class="text-xl font-extrabold text-tertiary mb-2">
+						ZenAccounting
+					</h1>
+					<p class="text-sm text-on-surface-variant">
+						© 2026 Все права защищены. Бухгалтерия для малого и среднего
+						бизнеса.
+					</p>
+				</div>
+				<div class="flex gap-8">
+					<a
+						class="text-on-surface-variant hover:text-tertiary"
+						href="#"
+					>
+						Политика конфиденциальности
+					</a>
+					<a
+						class="text-on-surface-variant hover:text-tertiary"
+						href="#"
+					>
+						Оферта
+					</a>
+				</div>
+				<div class="flex gap-4">
+					<button
+						class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-tertiary hover:text-white transition-colors"
+					>
+						<span class="material-symbols-outlined text-xl">share</span>
+					</button>
+				</div>
+			</div>
+		</footer>
+		<script>
+			function updateCalc() {
+				const taxSystem = document.querySelector(
+					'input[name="tax_system"]:checked'
+				).value
+				const employees = parseInt(document.getElementById('empRange').value)
+
+				document.getElementById('empCountDisplay').innerText = employees
+
+				let basePrice = taxSystem === 'osno' ? 12000 : 5000
+				let employeeCost = employees * 700
+				let total = basePrice + employeeCost
+
+				document.getElementById('totalPrice').innerText = total.toLocaleString()
+			}
+
+			function toggleFaq(element) {
+				const items = document.querySelectorAll('.faq-item')
+				items.forEach(item => {
+					if (item !== element) item.classList.remove('active')
+				})
+				element.classList.toggle('active')
+			}
+
+			function validateForm(e) {
+				e.preventDefault()
+				let isValid = true
+
+				const name = document.getElementById('formName')
+				const phone = document.getElementById('formPhone')
+				const nameError = document.getElementById('nameError')
+				const phoneError = document.getElementById('phoneError')
+
+				if (name.value.length < 2) {
+					nameError.classList.remove('hidden')
+					name.classList.add('border-error')
+					isValid = false
+				} else {
+					nameError.classList.add('hidden')
+					name.classList.remove('border-error')
+				}
+
+				if (phone.value.length < 10) {
+					phoneError.classList.remove('hidden')
+					phone.classList.add('border-error')
+					isValid = false
+				} else {
+					phoneError.classList.add('hidden')
+					phone.classList.remove('border-error')
+				}
+
+				if (isValid) {
+					alert(
+						'Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.'
+					)
+					e.target.reset()
+				}
+				return false
+			}
+
+			updateCalc()
+		</script>
+	</body>
+</html>
